@@ -1,7 +1,3 @@
-Here is the combined and fully updated `README.md`. I have seamlessly integrated the Beta Release annotations, the Date Guard information, and the Local Network/Mobile access instructions directly into the relevant sections of your documentation.
-
-***
-
 # 🎛️ C4DashboardTool (Beta Trial)
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. No Python installation required — just download, configure, and run.
