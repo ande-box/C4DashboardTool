@@ -1,10 +1,16 @@
-# 🎛️ C4DashboardTool
+Here is the combined and fully updated `README.md`. I have seamlessly integrated the Beta Release annotations, the Date Guard information, and the Local Network/Mobile access instructions directly into the relevant sections of your documentation.
+
+***
+
+# 🎛️ C4DashboardTool (Beta Trial)
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. No Python installation required — just download, configure, and run.
 
+> **️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **August 1, 2026**. Please contact the developer for the full, unrestricted version after this date.
+
 ---
 
-## 📦 What's Included
+##  What's Included
 
 | File | Purpose |
 |------|---------|
@@ -61,7 +67,7 @@ A console window will appear showing connection logs, and your default browser w
 4. Click **"✅ Save & Close"**
 
 ### Room Management
-- Click **"🏠 Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
+- Click **" Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
 - Use the **Room Tabs** at the top to filter your view.
 - In Setup Mode, click the **📂 folder badge** at the bottom-left of any widget to move it to a different room.
 
@@ -76,7 +82,19 @@ A console window will appear showing connection logs, and your default browser w
 
 ## ⚠️ Important Notes
 
-### 🔒 Security
+### ⏳ Trial Expiration Guard
+This build contains a time-lock for beta testing purposes. 
+* The application will function perfectly until **August 1, 2026**. 
+* After this date, the application will display an "Access Expired" message and close automatically. 
+* *Note for developers:* The date guard is implemented as a standalone function in `c4d_gui.py` and can be easily removed for the final production build.
+
+### 📱 Mobile & Local Network Access
+The server is configured to listen on `0.0.0.0`, allowing you to access the dashboard from your smartphone, tablet, or other PCs on your local Wi-Fi network.
+1. Find your PC's local IP address (e.g., `192.168.1.50`).
+2. Open Chrome on your phone and navigate to `http://192.168.1.50:65001`.
+3. **Pro Tip:** Tap the Chrome menu (three dots) and select **"Add to Home screen"** to install it as a full-screen web app on your phone!
+
+###  Security
 - **Never share your `.env` file** — it contains your Control4 credentials in plain text.
 - This repository is **private** for a reason. Do not make it public.
 - If you accidentally commit your `.env` to a public repo, change your Control4 password immediately.
@@ -95,10 +113,12 @@ A console window will appear showing connection logs, and your default browser w
 
 | Issue | Solution |
 |-------|----------|
+| **"Access Expired"** | The trial period (ending Aug 1, 2026) has ended. Contact the developer for the full version. |
 | **"Authentication failed"** | Check your `C4_USERNAME`, `C4_PASSWORD`, and `C4_HOST` in `.env`. Ensure your controller is online and Director API is enabled. |
 | **"dashboard.html is missing"** | The `.exe` cannot find its internal files. Ensure you downloaded the complete package. |
 | **"Port already in use"** | Change `C4_GUI_PORT` in `.env` to a different port (e.g., `65002`). |
 | **Dashboard won't open** | Check the console window for errors. Ensure `C4_AUTO_OPEN_BROWSER=true` in `.env`. |
+| **Cannot connect from phone** | Ensure your phone and PC are on the same Wi-Fi. Check Windows Firewall and allow `C4DashboardTool.exe` (or Python) through for Private networks. |
 | **Widgets show "ERR"** | The controller may be unreachable. Check your network connection and `C4_HOST` IP address. |
 | **High controller CPU usage** | Increase `C4_POLLING_INTERVAL_MS` to `3000` or `5000` to reduce request frequency. |
 
@@ -121,13 +141,11 @@ This project is **unofficial** and not affiliated with, endorsed by, or supporte
 ## 💡 Tips
 
 - **Run only one instance** of `C4DashboardTool.exe` at a time to avoid overloading your controller.
-- **Access from other devices:** Open `http://<YOUR_PC_IP>:65001` on any device on the same network (e.g., your phone or tablet).
 - **Firewall:** If other devices can't connect, allow `C4DashboardTool.exe` through Windows Firewall.
+- **Performance:** For the best mobile experience, keep the number of active Textbox widgets reasonable to minimize polling load on your Control4 controller.
 
 ---
 
 ## 📄 License
 
 MIT License. Free for personal and commercial use.
-</think>
-
