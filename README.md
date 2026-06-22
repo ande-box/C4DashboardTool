@@ -142,6 +142,11 @@ This project is **unofficial** and not affiliated with, endorsed by, or supporte
 
 ---
 
+## 💡 Thanks to ->>
+
+Inspired by the brilliant work of #lawtancool and his predecessors. Uses some code from https://github.com/lawtancool/pyControl4. Made by Qwen AI under human supervision
+
+
 ## 📄 License
 
-MIT License. Free for personal and commercial use.
+Free for personal use untill the beta period is expired.
