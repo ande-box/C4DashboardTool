@@ -1,6 +1,6 @@
 # 🎛️ C4DashboardTool (Beta Trial)
 
-A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. No Python installation required — just download, configure, and run.
+A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
 > **️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **August 1, 2026**. Please contact the developer for the full, unrestricted version after this date.
 
