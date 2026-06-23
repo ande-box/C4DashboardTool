@@ -1,5 +1,3 @@
-Here is the fully updated `README.md` file, incorporating the new **Combo-Button**, the **Smart Shutdown** logic, and the **Version Tag** features.
-
 ***
 
 # ️ C4DashboardTool (Beta Trial)
