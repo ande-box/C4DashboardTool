@@ -1,12 +1,16 @@
-# 🎛️ C4DashboardTool (Beta Trial)
+Here is the fully updated `README.md` file, incorporating the new **Combo-Button**, the **Smart Shutdown** logic, and the **Version Tag** features.
+
+***
+
+# ️ C4DashboardTool (Beta Trial)
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
-> **️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **August 1, 2026**. Please contact the developer for the full, unrestricted version after this date.
+> **⚠️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **August 1, 2026**. Please contact the developer for the full, unrestricted version after this date.
 
 ---
 
-##  What's Included
+## 📦 What's Included
 
 | File | Purpose |
 |------|---------|
@@ -49,30 +53,35 @@ A console window will appear showing connection logs, and your default browser w
 
 ---
 
-## 🖥️ Using the Dashboard
+## ️ Using the Dashboard
 
 ### First Time Setup
 1. Click **"Enter Setup Mode"** in the top-right corner.
 2. Click **"🛠️ Add Widget"** to create your first widget.
 3. Follow the 5-step wizard:
-   - **Step 1:** Choose widget type (Button or Textbox)
-   - **Step 2:** Select your device
-   - **Step 3:** Choose a command or variable
-   - **Step 4:** Configure parameters (if needed) and test
-   - **Step 5:** Set a label, color, and assign to a room
-4. Click **"✅ Save & Close"**
+   - **Step 1:** Choose widget type: **Button** (Command only), **Textbox** (Status only), or **Combo-Button** (Command + Status).
+   - **Step 2:** Select your device(s). *(Note: For Combo-Buttons, you can select different devices for the command and the status).*
+   - **Step 3:** Choose a command (and a status variable if using Combo-Button).
+   - **Step 4:** Configure parameters (if needed) and test.
+   - **Step 5:** Set a label, color, and assign to a room.
+4. Click **"✅ Save & Close"**.
+
+###  New Feature: Combo-Button (2-in-1 Widget)
+The **Combo-Button** is a hybrid widget that acts as a clickable button to send a command (like a light toggle) while simultaneously polling and displaying a live status variable (like the light's current state).
+- **Setup:** Select "Combo-Button" in the wizard. You can assign a command from one device and a status variable from another (or the same) device.
+- **Usage:** Click the widget to execute the command. The text inside will update automatically based on the polled variable.
 
 ### Room Management
-- Click **" Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
+- Click **"🏠 Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
 - Use the **Room Tabs** at the top to filter your view.
 - In Setup Mode, click the **📂 folder badge** at the bottom-left of any widget to move it to a different room.
 
 ### Reordering Widgets
 - In Setup Mode, drag widgets using the **⋮ handle** on the top-left.
-- Widgets auto-save their order.
+- Widgets auto-save their order. The dashboard uses a **Masonry Layout**, meaning widgets will dynamically resize to fit their content without stretching the entire row.
 
 ### Copying Text
-- For Textbox widgets, simply click and drag to highlight the text, then press `Ctrl+C`.
+- For Textbox and Combo-Button widgets, simply click and drag to highlight the text, then press `Ctrl+C` (native text selection).
 
 ---
 
@@ -90,12 +99,16 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 2. Open Chrome on your phone and navigate to `http://192.168.1.50:65001`.
 3. **Pro Tip:** Tap the Chrome menu (three dots) and select **"Add to Home screen"** to install it as a full-screen web app on your phone!
 
-###  Security
+### ️ Smart UI Features
+- **Smart Shutdown Button:** To prevent accidental server shutdowns, the **⏻ Shutdown** button is automatically hidden when accessing the dashboard from a mobile device or tablet. It is only visible on the host PC.
+- **Version Tag:** A small, unobtrusive version tag (e.g., `v260623`) is displayed in the bottom-right corner for easy version tracking.
+
+### 🔒 Security
 - **Never share your `.env` file** — it contains your Control4 credentials in plain text.
 - This repository is **private** for a reason. Do not make it public.
 - If you accidentally commit your `.env` to a public repo, change your Control4 password immediately.
 
-### 📁 File Locations
+###  File Locations
 - The `.exe` looks for `.env` and `dashboard_config.json` in the **same folder** as itself.
 - If you move the `.exe` to a different folder, you must move the config files with it.
 
@@ -138,15 +151,16 @@ This project is **unofficial** and not affiliated with, endorsed by, or supporte
 
 - **Run only one instance** of `C4DashboardTool.exe` at a time to avoid overloading your controller.
 - **Firewall:** If other devices can't connect, allow `C4DashboardTool.exe` through Windows Firewall.
-- **Performance:** For the best mobile experience, keep the number of active Textbox widgets reasonable to minimize polling load on your Control4 controller.
+- **Performance:** For the best mobile experience, keep the number of active Textbox/Combo widgets reasonable to minimize polling load on your Control4 controller.
 
 ---
 
 ## 💡 Thanks to ->>
 
-Inspired by the brilliant work of #lawtancool and his predecessors. Uses some code from https://github.com/lawtancool/pyControl4. Made by Qwen AI under human supervision
+Inspired by the brilliant work of #lawtancool and his predecessors. Uses some code from https://github.com/lawtancool/pyControl4. Made by Qwen AI under human supervision.
 
+---
 
 ## 📄 License
 
-Free for personal use untill the beta period is expired.
+Free for personal use until the beta period is expired.
