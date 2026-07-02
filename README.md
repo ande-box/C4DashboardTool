@@ -1,6 +1,4 @@
-***
-
-# ️ C4DashboardTool (Beta Trial)
+# 🎛️ C4DashboardTool (Beta Trial)
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
@@ -8,7 +6,7 @@ A standalone Windows application for monitoring and controlling your **Control4*
 
 ---
 
-## 📦 What's Included
+##  What's Included
 
 | File | Purpose |
 |------|---------|
@@ -51,34 +49,39 @@ A console window will appear showing connection logs, and your default browser w
 
 ---
 
-## ️ Using the Dashboard
+## 🖥️ Using the Dashboard
 
 ### First Time Setup
 1. Click **"Enter Setup Mode"** in the top-right corner.
 2. Click **"🛠️ Add Widget"** to create your first widget.
 3. Follow the 5-step wizard:
    - **Step 1:** Choose widget type: **Button** (Command only), **Textbox** (Status only), or **Combo-Button** (Command + Status).
-   - **Step 2:** Select your device(s). *(Note: For Combo-Buttons, you can select different devices for the command and the status).*
-   - **Step 3:** Choose a command (and a status variable if using Combo-Button).
+   - **Step 2:** Select your device(s). *(Note: The "Command Device (ID)" selector is hidden for pure Textboxes. For Combo-Buttons, you can select different devices for the command and the status).*
+   - **Step 3:** Choose a command (for Buttons/Combos) and a status variable (for Textboxes/Combos).
    - **Step 4:** Configure parameters (if needed) and test.
    - **Step 5:** Set a label, color, and assign to a room.
 4. Click **"✅ Save & Close"**.
 
-###  New Feature: Combo-Button (2-in-1 Widget)
+### ✨ New Features & UI Improvements
+
+**Combo-Button (2-in-1 Widget)**
 The **Combo-Button** is a hybrid widget that acts as a clickable button to send a command (like a light toggle) while simultaneously polling and displaying a live status variable (like the light's current state).
 - **Setup:** Select "Combo-Button" in the wizard. You can assign a command from one device and a status variable from another (or the same) device.
 - **Usage:** Click the widget to execute the command. The text inside will update automatically based on the polled variable.
 
-### Room Management
-- Click **"🏠 Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
+**Cleaner Pure Buttons**
+Standard **Button** widgets no longer display an empty status text area. They are rendered as clean, compact cards showing only their label, making the dashboard look much tidier.
+
+**Room Management**
+- Click **" Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
 - Use the **Room Tabs** at the top to filter your view.
 - In Setup Mode, click the **📂 folder badge** at the bottom-left of any widget to move it to a different room.
 
-### Reordering Widgets
+**Reordering Widgets**
 - In Setup Mode, drag widgets using the **⋮ handle** on the top-left.
 - Widgets auto-save their order. The dashboard uses a **Masonry Layout**, meaning widgets will dynamically resize to fit their content without stretching the entire row.
 
-### Copying Text
+**Copying Text**
 - For Textbox and Combo-Button widgets, simply click and drag to highlight the text, then press `Ctrl+C` (native text selection).
 
 ---
@@ -91,14 +94,18 @@ This build contains a time-lock for beta testing purposes.
 * After this date, the application will display an "Access Expired" message and close automatically. 
 * *Note for developers:* The date guard is implemented as a standalone function in `c4d_gui.py` and can be easily removed for the final production build.
 
-### 📱 Mobile & Local Network Access
+### 🔄 Automatic Token Renewal
+Control4 authentication tokens expire every 24 hours. This application now features **background auto-renewal**. If a token expires, the system silently catches the error, re-authenticates with the controller, and retries the request. You will never need to manually restart the app to fix "Authentication failed" errors.
+
+###  Mobile & Local Network Access
 The server is configured to listen on `0.0.0.0`, allowing you to access the dashboard from your smartphone, tablet, or other PCs on your local Wi-Fi network.
 1. Find your PC's local IP address (e.g., `192.168.1.50`).
 2. Open Chrome on your phone and navigate to `http://192.168.1.50:65001`.
 3. **Pro Tip:** Tap the Chrome menu (three dots) and select **"Add to Home screen"** to install it as a full-screen web app on your phone!
 
-### ️ Smart UI Features
+### 🛡️ Smart UI Features
 - **Smart Shutdown Button:** To prevent accidental server shutdowns, the **⏻ Shutdown** button is automatically hidden when accessing the dashboard from a mobile device or tablet. It is only visible on the host PC.
+- **Mobile Setup Restriction:** The "Enter Setup Mode", "Add Widget", and "Manage Rooms" buttons are completely hidden on mobile devices. This prevents accidental edits and keeps the mobile interface strictly for viewing and controlling.
 - **Version Tag:** A small, unobtrusive version tag (e.g., `v260623`) is displayed in the bottom-right corner for easy version tracking.
 
 ### 🔒 Security
@@ -106,7 +113,7 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 - This repository is **private** for a reason. Do not make it public.
 - If you accidentally commit your `.env` to a public repo, change your Control4 password immediately.
 
-###  File Locations
+### 📁 File Locations
 - The `.exe` looks for `.env` and `dashboard_config.json` in the **same folder** as itself.
 - If you move the `.exe` to a different folder, you must move the config files with it.
 
@@ -116,12 +123,12 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 
 ---
 
-## 🛠️ Troubleshooting
+## ️ Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
 | **"Access Expired"** | The trial period (ending Aug 1, 2026) has ended. Contact the developer for the full version. |
-| **"Authentication failed"** | Check your `C4_USERNAME`, `C4_PASSWORD`, and `C4_HOST` in `.env`. Ensure your controller is online and Director API is enabled. |
+| **"Authentication failed" / Token Expired** | Handled automatically! The app will silently re-authenticate in the background. If it persists, check your `C4_USERNAME`, `C4_PASSWORD`, and `C4_HOST` in `.env`. |
 | **"dashboard.html is missing"** | The `.exe` cannot find its internal files. Ensure you downloaded the complete package. |
 | **"Port already in use"** | Change `C4_GUI_PORT` in `.env` to a different port (e.g., `65002`). |
 | **Dashboard won't open** | Check the console window for errors. Ensure `C4_AUTO_OPEN_BROWSER=true` in `.env`. |
