@@ -2,11 +2,11 @@
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
-> **⚠️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **August 1, 2026**. Please contact the developer for the full, unrestricted version after this date.
+> **⚠️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **January 1, 2027**. Please contact the developer for the full, unrestricted version after this date.
 
 ---
 
-##  What's Included
+## 📦 What's Included
 
 | File | Purpose |
 |------|---------|
@@ -49,7 +49,7 @@ A console window will appear showing connection logs, and your default browser w
 
 ---
 
-## 🖥️ Using the Dashboard
+## ️ Using the Dashboard
 
 ### First Time Setup
 1. Click **"Enter Setup Mode"** in the top-right corner.
@@ -58,27 +58,33 @@ A console window will appear showing connection logs, and your default browser w
    - **Step 1:** Choose widget type: **Button** (Command only), **Textbox** (Status only), or **Combo-Button** (Command + Status).
    - **Step 2:** Select your device(s). *(Note: The "Command Device (ID)" selector is hidden for pure Textboxes. For Combo-Buttons, you can select different devices for the command and the status).*
    - **Step 3:** Choose a command (for Buttons/Combos) and a status variable (for Textboxes/Combos).
-   - **Step 4:** Configure parameters (if needed) and test.
-   - **Step 5:** Set a label, color, and assign to a room.
+   - **Step 4:** Configure parameters, set **Dynamic Color Rules** (optional), and test.
+   - **Step 5:** Set a label and assign to a room.
 4. Click **"✅ Save & Close"**.
 
-### ✨ New Features & UI Improvements
+### ✨ Features & UI Improvements
+
+**Dynamic Color Rules (Colorized Conditions)**
+Automatically change a widget's **Title** and **Left Border Accent** based on specific variable values. 
+- **How it works:** In the wizard, define conditions (e.g., if value is `True` turn Green, if `Error` turn Red). 
+- **Simplified Logic:** If the variable's value does not match any of your custom rules, the widget automatically defaults to the standard dashboard theme color. The background and value text remain fixed for a clean, consistent look.
 
 **Combo-Button (2-in-1 Widget)**
 The **Combo-Button** is a hybrid widget that acts as a clickable button to send a command (like a light toggle) while simultaneously polling and displaying a live status variable (like the light's current state).
-- **Setup:** Select "Combo-Button" in the wizard. You can assign a command from one device and a status variable from another (or the same) device.
-- **Usage:** Click the widget to execute the command. The text inside will update automatically based on the polled variable.
 
 **Cleaner Pure Buttons**
 Standard **Button** widgets no longer display an empty status text area. They are rendered as clean, compact cards showing only their label, making the dashboard look much tidier.
 
+**Optimized Frontend Code**
+The dashboard HTML, CSS, and JavaScript have been heavily optimized and minified. This results in a significantly smaller file size and much faster load times, especially when accessing the dashboard from mobile devices over local Wi-Fi.
+
 **Room Management**
-- Click **" Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
+- Click **"🏠 Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
 - Use the **Room Tabs** at the top to filter your view.
 - In Setup Mode, click the **📂 folder badge** at the bottom-left of any widget to move it to a different room.
 
 **Reordering Widgets**
-- In Setup Mode, drag widgets using the **⋮ handle** on the top-left.
+- In Setup Mode, drag widgets using the ** handle** on the top-left.
 - Widgets auto-save their order. The dashboard uses a **Masonry Layout**, meaning widgets will dynamically resize to fit their content without stretching the entire row.
 
 **Copying Text**
@@ -90,14 +96,14 @@ Standard **Button** widgets no longer display an empty status text area. They ar
 
 ### ⏳ Trial Expiration Guard
 This build contains a time-lock for beta testing purposes. 
-* The application will function perfectly until **August 1, 2026**. 
+* The application will function perfectly until **January 1, 2027**. 
 * After this date, the application will display an "Access Expired" message and close automatically. 
 * *Note for developers:* The date guard is implemented as a standalone function in `c4d_gui.py` and can be easily removed for the final production build.
 
 ### 🔄 Automatic Token Renewal
 Control4 authentication tokens expire every 24 hours. This application now features **background auto-renewal**. If a token expires, the system silently catches the error, re-authenticates with the controller, and retries the request. You will never need to manually restart the app to fix "Authentication failed" errors.
 
-###  Mobile & Local Network Access
+### 📱 Mobile & Local Network Access
 The server is configured to listen on `0.0.0.0`, allowing you to access the dashboard from your smartphone, tablet, or other PCs on your local Wi-Fi network.
 1. Find your PC's local IP address (e.g., `192.168.1.50`).
 2. Open Chrome on your phone and navigate to `http://192.168.1.50:65001`.
@@ -106,7 +112,7 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 ### 🛡️ Smart UI Features
 - **Smart Shutdown Button:** To prevent accidental server shutdowns, the **⏻ Shutdown** button is automatically hidden when accessing the dashboard from a mobile device or tablet. It is only visible on the host PC.
 - **Mobile Setup Restriction:** The "Enter Setup Mode", "Add Widget", and "Manage Rooms" buttons are completely hidden on mobile devices. This prevents accidental edits and keeps the mobile interface strictly for viewing and controlling.
-- **Version Tag:** A small, unobtrusive version tag (e.g., `v260623`) is displayed in the bottom-right corner for easy version tracking.
+- **Version Tag:** A small, unobtrusive version tag (e.g., `v260702`) is displayed in the bottom-right corner for easy version tracking.
 
 ### 🔒 Security
 - **Never share your `.env` file** — it contains your Control4 credentials in plain text.
@@ -123,11 +129,11 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 
 ---
 
-## ️ Troubleshooting
+## 🛠️ Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
-| **"Access Expired"** | The trial period (ending Aug 1, 2026) has ended. Contact the developer for the full version. |
+| **"Access Expired"** | The trial period (ending Jan 1, 2027) has ended. Contact the developer for the full version. |
 | **"Authentication failed" / Token Expired** | Handled automatically! The app will silently re-authenticate in the background. If it persists, check your `C4_USERNAME`, `C4_PASSWORD`, and `C4_HOST` in `.env`. |
 | **"dashboard.html is missing"** | The `.exe` cannot find its internal files. Ensure you downloaded the complete package. |
 | **"Port already in use"** | Change `C4_GUI_PORT` in `.env` to a different port (e.g., `65002`). |
@@ -138,7 +144,7 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 
 ---
 
-## 📊 System Requirements
+##  System Requirements
 
 - **OS:** Windows 10 or Windows 11 (64-bit)
 - **Network:** Access to your Control4 controller on the local network
@@ -146,7 +152,7 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 
 ---
 
-## 📜 Disclaimer
+##  Disclaimer
 
 This project is **unofficial** and not affiliated with, endorsed by, or supported by Control4 Corporation. Use at your own risk. The Director API is intended for integration partners; ensure compliance with your local smart home policies and network security standards.
 
@@ -164,7 +170,7 @@ This project is **unofficial** and not affiliated with, endorsed by, or supporte
 
 Inspired by the brilliant work of #lawtancool and his predecessors. Uses some code from https://github.com/lawtancool/pyControl4. Made by Qwen AI under human supervision.
 
----
+
 
 ## 📄 License
 
