@@ -4,7 +4,7 @@
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
-> **⚠️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running on **January 1, 2027**. Please contact the developer for the full, unrestricted version after this date.
+> **⚠️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running at the end of licensed period. Please contact the developer for the full, unrestricted version after this date.
 
 ---
 
