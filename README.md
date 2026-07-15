@@ -1,10 +1,10 @@
 ***
 
-# ️ C4DashboardTool (Beta Trial)
+# 🎛️ C4DashboardTool (Licensed Edition)
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
-> **⚠️ BETA TRIAL NOTICE:** This is a trial version of the application. It includes a built-in **Date Guard** that will automatically expire and stop running at the end of licensed period. Please contact the developer for the full, unrestricted version after this date.
+> **🔐 LICENSE NOTICE:** This application uses a secure, offline **Hardware-Locked RSA Licensing** system. It is tied to your specific machine's hardware fingerprint. Please contact the developer to obtain your unique activation key.
 
 ---
 
@@ -13,7 +13,8 @@ A standalone Windows application for monitoring and controlling your **Control4*
 | File | Purpose |
 |------|---------|
 | `C4DashboardTool.exe` | The main application (compiled Python executable) |
-| `.env` | Your credentials and settings (must be configured) |
+| `public_key.pem` | **Required** for license verification (Do not delete) |
+| `.env` | Your credentials, settings, and license key (must be configured) |
 | `dashboard_config.json` | Your dashboard layout and widgets (auto-managed) |
 
 ---
@@ -21,7 +22,7 @@ A standalone Windows application for monitoring and controlling your **Control4*
 ## 🚀 Quick Start
 
 ### Step 1: Download All Files
-Ensure all three files (`C4DashboardTool.exe`, `.env`, `dashboard_config.json`) are in the **same folder** on your computer.
+Ensure all four files (`C4DashboardTool.exe`, `public_key.pem`, `.env`, `dashboard_config.json`) are in the **same folder** on your computer.
 
 ### Step 2: Configure `.env`
 Open the `.env` file with any text editor (Notepad, VS Code, etc.) and update the following:
@@ -33,16 +34,20 @@ C4_HOST="192.168.1.XX"
 C4_GUI_PORT=65003
 C4_AUTO_OPEN_BROWSER=true
 C4_POLLING_INTERVAL_MS=1000
+NTP_ADDRESS="89.109.251.21"
+LICENSE_KEY=""
 ```
 
 | Variable | Description |
 |----------|-------------|
 | `C4_USERNAME` | Your Control4 account email |
 | `C4_PASSWORD` | Your Control4 account password |
-| `C4_HOST` | IP address of your Control4 controller (found in your router or Control4 app) |
+| `C4_HOST` | IP address of your Control4 controller |
 | `C4_GUI_PORT` | Port for the web dashboard (default: 65003) |
 | `C4_AUTO_OPEN_BROWSER` | `true` = opens browser automatically on startup |
-| `C4_POLLING_INTERVAL_MS` | How often to refresh widget data (in milliseconds, default: 1000) |
+| `C4_POLLING_INTERVAL_MS` | How often to refresh widget data (in milliseconds) |
+| `NTP_ADDRESS` | NTP server used for secure time verification (optional) |
+| `LICENSE_KEY` | **Paste your unique activation key here** (provided by developer) |
 
 ### Step 3: Run the Application
 Double-click `C4DashboardTool.exe`. 
@@ -51,15 +56,39 @@ A console window will appear showing connection logs, and your default browser w
 
 ---
 
-## ️ Using the Dashboard
+## 🛡️ Activation & Licensing
+
+### First-Time Activation
+If you run the application without a `LICENSE_KEY` in your `.env` file, you will see an **"Access Denied"** screen in your browser. This screen displays your unique **Machine Fingerprint**:
+
+> **Your Machine Fingerprint:**
+> * **OS GUID:** `a1b2c3d4...`
+> * **CPU ID:** `Intel Core i7...`
+> * **MAC Address:** `00:1A:2B...`
+
+**To activate the software:**
+1. Copy the text from the "Access Denied" screen.
+2. Send it to the developer.
+3. The developer will generate a unique, cryptographically signed License Key tied to your hardware.
+4. Paste the key into the `LICENSE_KEY=""` line in your `.env` file.
+5. Restart `C4DashboardTool.exe`. The dashboard will now load, and the bottom-right corner will display `License valid till [Date]`.
+
+### Hardware Upgrades (2-out-of-3 Rule)
+The licensing system is designed to be forgiving. It checks three hardware IDs (OS GUID, CPU ID, and MAC Address). **As long as 2 out of the 3 IDs match**, your license will remain valid. 
+* *Example:* If you upgrade your network card (changing the MAC address), your license will still work because the OS and CPU match.
+* *Note:* If you replace your entire motherboard and reinstall Windows, all 3 IDs will change, and you will need to request a new key from the developer.
+
+---
+
+## 🛠️ Using the Dashboard
 
 ### First Time Setup
 1. Click **"Enter Setup Mode"** in the top-right corner.
 2. Click **"🛠️ Add Widget"** to create your first widget.
 3. Follow the wizard:
-   - **Step 1:** Choose widget type: **Button** (Command only), **Textbox** (Status only), **Combo-Button** (Command + Status), or **MACRO** (Batch Commands).
-   - **Step 2:** Select your device(s) using the **Quick Search bar** to instantly filter by name or ID. 
-   - **Step 3/4:** Configure commands, variables, parameters, and **Dynamic Color Rules**. For MACROs, build your timeline and use the **Test** button to verify it before saving.
+   - **Step 1:** Choose widget type: **Button**, **Textbox**, **Combo-Button**, or **MACRO**.
+   - **Step 2:** Select your device(s) using the **Quick Search bar**. 
+   - **Step 3/4:** Configure commands, variables, parameters, and **Dynamic Color Rules**. For MACROs, build your timeline and use the **Test** button.
    - **Step 5:** Set a label and assign to a room.
 4. Click **"✅ Save & Close"**.
 
@@ -67,82 +96,58 @@ A console window will appear showing connection logs, and your default browser w
 
 **MACRO Widget (Scene Director)**
 A powerful new widget type for executing complex batch commands. 
-- **Parallel & Serial Execution:** Commands in the same row run concurrently; rows run sequentially (top to bottom).
-- **Configurable Delays:** Add a delay (up to 60 seconds) before *any* row executes, perfect for waiting on devices to boot or respond.
-- **Visual Feedback:** The widget pulses with a smooth color animation while running, and the text area displays the active commands.
+- **Parallel & Serial Execution:** Commands in the same row run concurrently; rows run sequentially.
+- **Configurable Delays:** Add a delay (up to 60 seconds) before *any* row executes.
+- **Visual Feedback:** The widget pulses with a smooth color animation while running.
 
 **Unsaved Macro Testing**
-You can now test your MACRO timelines directly from the setup wizard. Click the **Test** button to run your sequence and verify it works perfectly before saving it to your dashboard.
+Test your MACRO timelines directly from the setup wizard using the **Test** button before saving.
 
 **Quick Device Search**
-The widget setup wizard now includes a quick-search text field above device dropdowns. Instantly filter your Control4 devices by name or ID instead of scrolling through long lists.
+Instantly filter your Control4 devices by name or ID in the setup wizard instead of scrolling through long lists.
 
 **Refined UI Defaults**
-Widgets now default to a sleek light gray accent (`#aaaaaa`) with fixed title colors. This ensures high readability and a professional look, regardless of what dynamic color rules are triggered.
+Widgets default to a sleek light gray accent (`#aaaaaa`) with fixed title colors, ensuring high readability regardless of dynamic color rules.
 
-**Dynamic Color Rules (Colorized Conditions)**
-Automatically change a widget's **Left Border Accent and Background Tint** based on specific variable values. 
-- **How it works:** In the wizard, define conditions (e.g., if value is `True` turn Green, if `Error` turn Red). 
-- **Simplified Logic:** If the variable's value does not match any of your custom rules, the widget automatically defaults to the standard light gray theme color. The title text remains fixed for a clean, consistent look.
+**Dynamic Color Rules**
+Automatically change a widget's **Left Border Accent and Background Tint** based on specific variable values (e.g., Green for "True", Red for "Error").
 
 **Combo-Button (2-in-1 Widget)**
-The **Combo-Button** is a hybrid widget that acts as a clickable button to send a command (like a light toggle) while simultaneously polling and displaying a live status variable (like the light's current state).
+A hybrid widget that acts as a clickable button to send a command while simultaneously polling and displaying a live status variable.
 
-**Cleaner Pure Buttons**
-Standard **Button** widgets no longer display an empty status text area. They are rendered as clean, compact cards showing only their label, making the dashboard look much tidier.
+**Cleaner Pure Buttons & Optimized Code**
+Standard Buttons are rendered as clean, compact cards. The frontend code is heavily optimized for faster load times on mobile devices.
 
-**Optimized Frontend Code**
-The dashboard HTML, CSS, and JavaScript have been heavily optimized and minified. This results in a significantly smaller file size and much faster load times, especially when accessing the dashboard from mobile devices over local Wi-Fi.
-
-**Room Management**
-- Click **"🏠 Manage Rooms"** (in Setup Mode) to create rooms like "Living Room", "Kitchen", etc.
-- Use the **Room Tabs** at the top to filter your view.
-- In Setup Mode, click the **📂 folder badge** at the bottom-left of any widget to move it to a different room.
-
-**Reordering Widgets**
-- In Setup Mode, drag widgets using the **⋮ handle** on the top-left.
-- Widgets auto-save their order. The dashboard uses a **Masonry Layout**, meaning widgets will dynamically resize to fit their content without stretching the entire row.
-
-**Copying Text**
-- For Textbox, Combo-Button, and MACRO widgets, simply click and drag to highlight the text, then press `Ctrl+C` (native text selection).
+**Room Management & Reordering**
+- Create rooms and filter views via tabs.
+- Drag and drop widgets using the **⋮ handle** in Setup Mode.
+- The dashboard uses a **Masonry Layout** to dynamically resize widgets without stretching rows.
 
 ---
 
 ## ⚠️ Important Notes
 
-### ⏳ Trial Expiration Guard & NTP Verification
-This build contains a time-lock for beta testing purposes. 
-* The application will function perfectly until **January 1, 2027**. 
-* **NTP Verification:** The application first attempts to verify the current time against an NTP server to prevent local clock tampering. If the NTP server is unreachable, it falls back to the local system time.
-* After the expiration date, the application will display an "Access Expired" message and close automatically. 
-
-
 ### 🔄 Automatic Token Renewal
-Control4 authentication tokens expire every 24 hours. This application now features **background auto-renewal**. If a token expires, the system silently catches the error, re-authenticates with the controller, and retries the request. You will never need to manually restart the app to fix "Authentication failed" errors.
+Control4 authentication tokens expire every 24 hours. This application features **background auto-renewal**. If a token expires, the system silently catches the error, re-authenticates, and retries. You will never need to manually restart the app.
 
-###  Mobile & Local Network Access
-The server is configured to listen on `0.0.0.0`, allowing you to access the dashboard from your smartphone, tablet, or other PCs on your local Wi-Fi network.
+### 📱 Mobile & Local Network Access
+The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or other PCs on your local Wi-Fi.
 1. Find your PC's local IP address (e.g., `192.168.1.50`).
-2. Open Chrome on your phone and navigate to `http://192.168.1.50:65003`.
-3. **Pro Tip:** Tap the Chrome menu (three dots) and select **"Add to Home screen"** to install it as a full-screen web app on your phone!
+2. Navigate to `http://192.168.1.50:65003` on your mobile device.
+3. **Pro Tip:** Tap the Chrome menu and select **"Add to Home screen"** to install it as a full-screen web app!
 
 ### 🛡️ Smart UI Features
-- **Smart Shutdown Button:** To prevent accidental server shutdowns, the ** Shutdown** button is automatically hidden when accessing the dashboard from a mobile device or tablet. It is only visible on the host PC.
-- **Mobile Setup Restriction:** The "Enter Setup Mode", "Add Widget", and "Manage Rooms" buttons are completely hidden on mobile devices. This prevents accidental edits and keeps the mobile interface strictly for viewing and controlling.
-- **Version Tag:** A small, unobtrusive version tag (e.g., `v260713 | License valid till Jan 01, 2027`) is displayed in the bottom-right corner for easy version tracking.
+- **Smart Shutdown Button:** Hidden on mobile devices to prevent accidental server shutdowns.
+- **Mobile Setup Restriction:** Setup controls are hidden on mobile to keep the interface clean.
+- **Version Tag:** A small tag in the bottom-right corner (e.g., `v260715 | License valid till 2027-01-01`) tracks the version and license status.
 
 ### 🔒 Security
-- **Never share your `.env` file** — it contains your Control4 credentials in plain text.
-- This repository is **private** for a reason. Do not make it public.
-- If you accidentally commit your `.env` to a public repo, change your Control4 password immediately.
+- **Never share your `.env` file** — it contains your Control4 credentials and license key.
+- **Keep `public_key.pem` safe** — the application will not run without it.
 
-### 📁 File Locations
-- The `.exe` looks for `.env` and `dashboard_config.json` in the **same folder** as itself.
-- If you move the `.exe` to a different folder, you must move the config files with it.
-
-### 🔄 Updates
-- When a new version of `C4DashboardTool.exe` is released, simply replace the old `.exe` with the new one.
-- Keep your existing `.env` and `dashboard_config.json` files — they are compatible across versions.
+###  File Locations & Updates
+- The `.exe` looks for all config files in the **same folder** as itself.
+- When a new version of `C4DashboardTool.exe` is released, simply replace the old `.exe` and `public_key.pem` with the new ones. Keep your existing `.env` and `dashboard_config.json`.
 
 ---
 
@@ -150,14 +155,14 @@ The server is configured to listen on `0.0.0.0`, allowing you to access the dash
 
 | Issue | Solution |
 |-------|----------|
-| **"Access Expired"** | The trial period (ending Jan 1, 2027) has ended. Contact the developer for the full version. |
-| **"Authentication failed" / Token Expired** | Handled automatically! The app will silently re-authenticate in the background. If it persists, check your `C4_USERNAME`, `C4_PASSWORD`, and `C4_HOST` in `.env`. |
+| **"Access Denied" / Shows Fingerprint** | No `LICENSE_KEY` is present in `.env`. Copy the fingerprint and send it to the developer to receive your key. |
+| **"Hardware mismatch"** | You changed too much hardware. The system requires 2 out of 3 IDs (OS, CPU, MAC) to match. Contact the developer for a new key. |
+| **"Invalid License Key"** | Ensure `public_key.pem` is in the same folder as the `.exe`, and the key in `.env` is copied exactly without extra spaces. |
+| **"Authentication failed"** | Handled automatically via background renewal. If it persists, check your credentials in `.env`. |
 | **"dashboard.html is missing"** | The `.exe` cannot find its internal files. Ensure you downloaded the complete package. |
 | **"Port already in use"** | Change `C4_GUI_PORT` in `.env` to a different port (e.g., `65004`). |
-| **Dashboard won't open** | Check the console window for errors. Ensure `C4_AUTO_OPEN_BROWSER=true` in `.env`. |
-| **Cannot connect from phone** | Ensure your phone and PC are on the same Wi-Fi. Check Windows Firewall and allow `C4DashboardTool.exe` (or Python) through for Private networks. |
+| **Cannot connect from phone** | Ensure your phone and PC are on the same Wi-Fi. Allow `C4DashboardTool.exe` through Windows Firewall. |
 | **Widgets show "ERR"** | The controller may be unreachable. Check your network connection and `C4_HOST` IP address. |
-| **High controller CPU usage** | Increase `C4_POLLING_INTERVAL_MS` to `3000` or `5000` to reduce request frequency. |
 
 ---
 
@@ -178,8 +183,8 @@ This project is **unofficial** and not affiliated with, endorsed by, or supporte
 ## 💡 Tips
 
 - **Run only one instance** of `C4DashboardTool.exe` at a time to avoid overloading your controller.
-- **Firewall:** If other devices can't connect, allow `C4DashboardTool.exe` through Windows Firewall.
-- **Performance:** For the best mobile experience, keep the number of active Textbox/Combo widgets reasonable to minimize polling load on your Control4 controller.
+- **Firewall:** If other devices can't connect, allow `C4DashboardTool.exe` through Windows Firewall for Private networks.
+- **Performance:** Keep the number of active Textbox/Combo widgets reasonable to minimize polling load on your Control4 controller.
 
 ---
 
@@ -191,4 +196,4 @@ Inspired by the brilliant work of #lawtancool and his predecessors. Uses some co
 
 ## 📄 License
 
-Free for personal use until the beta period is expired.
+Licensed for personal use. The application utilizes a secure, offline Hardware-Locked RSA licensing framework to ensure authorized usage.
