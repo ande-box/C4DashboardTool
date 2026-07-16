@@ -1,10 +1,10 @@
 ***
 
-# 🎛️ C4DashboardTool (Licensed Edition)
+# 🎛️ C4DashboardTool (Beta Edition)
 
 A standalone Windows application for monitoring and controlling your **Control4** smart home system via the Director API. Just download, configure, and run.
 
-> **🔐 LICENSE NOTICE:** This application uses a secure, offline **Hardware-Locked RSA Licensing** system. It is tied to your specific machine's hardware fingerprint. Please contact the developer to obtain your unique activation key.
+> **🔐 BETA NOTICE:** This application is currently in an open Beta phase. It is hardcoded to run freely until **January 1, 2027**. After this date, a valid license key will be required to use the software.
 
 ---
 
@@ -13,8 +13,8 @@ A standalone Windows application for monitoring and controlling your **Control4*
 | File | Purpose |
 |------|---------|
 | `C4DashboardTool.exe` | The main application (compiled Python executable) |
-| `public_key.pem` | **Required** for license verification (Do not delete) |
-| `.env` | Your credentials, settings, and license key (must be configured) |
+| `public_key.pem` | **Required** for license verification. Do not delete or move this file. |
+| `.env` | Your credentials and settings (must be configured) |
 | `dashboard_config.json` | Your dashboard layout and widgets (auto-managed) |
 
 ---
@@ -22,7 +22,7 @@ A standalone Windows application for monitoring and controlling your **Control4*
 ## 🚀 Quick Start
 
 ### Step 1: Download All Files
-Ensure all four files (`C4DashboardTool.exe`, `public_key.pem`, `.env`, `dashboard_config.json`) are in the **same folder** on your computer.
+Ensure all four files (`C4DashboardTool.exe`, `public_key.pem`, `.env`, `dashboard_config.json`) are in the **same folder** on your computer. 
 
 ### Step 2: Configure `.env`
 Open the `.env` file with any text editor (Notepad, VS Code, etc.) and update the following:
@@ -47,7 +47,7 @@ LICENSE_KEY=""
 | `C4_AUTO_OPEN_BROWSER` | `true` = opens browser automatically on startup |
 | `C4_POLLING_INTERVAL_MS` | How often to refresh widget data (in milliseconds) |
 | `NTP_ADDRESS` | NTP server used for secure time verification (optional) |
-| `LICENSE_KEY` | **Paste your unique activation key here** (provided by developer) |
+| `LICENSE_KEY` | Currently bypassed by Beta Dateguard. Paste your license key here after Jan 1, 2027. |
 
 ### Step 3: Run the Application
 Double-click `C4DashboardTool.exe`. 
@@ -56,27 +56,18 @@ A console window will appear showing connection logs, and your default browser w
 
 ---
 
-## 🛡️ Activation & Licensing
+## 🛡️ Licensing & Beta Status
 
-### First-Time Activation
-If you run the application without a `LICENSE_KEY` in your `.env` file, you will see an **"Access Denied"** screen in your browser. This screen displays your unique **Machine Fingerprint**:
+### Current Beta Status
+The application is currently in an open Beta phase. A hardcoded Dateguard allows the app to run freely without a key until **January 1, 2027**. 
 
-> **Your Machine Fingerprint:**
-> * **OS GUID:** `a1b2c3d4...`
-> * **CPU ID:** `Intel Core i7...`
-> * **MAC Address:** `00:1A:2B...`
+The bottom-right corner of the dashboard will display the current status: 
+`v260716 | Valid till Jan 01, 2027. Ask for license after.`
 
-**To activate the software:**
-1. Copy the text from the "Access Denied" screen.
-2. Send it to the developer.
-3. The developer will generate a unique, cryptographically signed License Key tied to your hardware.
-4. Paste the key into the `LICENSE_KEY=""` line in your `.env` file.
-5. Restart `C4DashboardTool.exe`. The dashboard will now load, and the bottom-right corner will display `License valid till [Date]`.
-
-### Hardware Upgrades (2-out-of-3 Rule)
-The licensing system is designed to be forgiving. It checks three hardware IDs (OS GUID, CPU ID, and MAC Address). **As long as 2 out of the 3 IDs match**, your license will remain valid. 
-* *Example:* If you upgrade your network card (changing the MAC address), your license will still work because the OS and CPU match.
-* *Note:* If you replace your entire motherboard and reinstall Windows, all 3 IDs will change, and you will need to request a new key from the developer.
+### Post-Beta Activation
+After January 1, 2027, the application will enforce its secure licensing system and will require a valid license key to run. 
+* **Keep `public_key.pem` safe:** This file is strictly required by the application to verify your license. **Never delete it or move it away from the `.exe` file.** If this file is missing, the application will not start.
+* If you need a license key after the Beta period, please contact the developer.
 
 ---
 
@@ -125,7 +116,7 @@ Standard Buttons are rendered as clean, compact cards. The frontend code is heav
 
 ---
 
-## ⚠️ Important Notes
+## ️ Important Notes
 
 ### 🔄 Automatic Token Renewal
 Control4 authentication tokens expire every 24 hours. This application features **background auto-renewal**. If a token expires, the system silently catches the error, re-authenticates, and retries. You will never need to manually restart the app.
@@ -139,15 +130,15 @@ The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or o
 ### 🛡️ Smart UI Features
 - **Smart Shutdown Button:** Hidden on mobile devices to prevent accidental server shutdowns.
 - **Mobile Setup Restriction:** Setup controls are hidden on mobile to keep the interface clean.
-- **Version Tag:** A small tag in the bottom-right corner (e.g., `v260715 | License valid till 2027-01-01`) tracks the version and license status.
+- **Version Tag:** A small tag in the bottom-right corner (e.g., `v260716 | Valid till Jan 01, 2027. Ask for license after.`) tracks the version and beta status.
 
-### 🔒 Security
-- **Never share your `.env` file** — it contains your Control4 credentials and license key.
+### 🔒 Security & File Locations
+- **Never share your `.env` file** — it contains your Control4 credentials.
 - **Keep `public_key.pem` safe** — the application will not run without it.
+- The `.exe` looks for all config files in the **same folder** as itself. If you move the `.exe`, you must move the `.env`, `dashboard_config.json`, and `public_key.pem` with it.
 
-###  File Locations & Updates
-- The `.exe` looks for all config files in the **same folder** as itself.
-- When a new version of `C4DashboardTool.exe` is released, simply replace the old `.exe` and `public_key.pem` with the new ones. Keep your existing `.env` and `dashboard_config.json`.
+### 🔄 Updates
+- When a new version of `C4DashboardTool.exe` is released, simply replace the old `.exe` and `public_key.pem` with the new ones. Keep your existing `.env` and `dashboard_config.json` files.
 
 ---
 
@@ -155,9 +146,7 @@ The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or o
 
 | Issue | Solution |
 |-------|----------|
-| **"Access Denied" / Shows Fingerprint** | No `LICENSE_KEY` is present in `.env`. Copy the fingerprint and send it to the developer to receive your key. |
-| **"Hardware mismatch"** | You changed too much hardware. The system requires 2 out of 3 IDs (OS, CPU, MAC) to match. Contact the developer for a new key. |
-| **"Invalid License Key"** | Ensure `public_key.pem` is in the same folder as the `.exe`, and the key in `.env` is copied exactly without extra spaces. |
+| **"Access Denied" / Shows Fingerprint** | The beta period (ending Jan 1, 2027) has ended, or the license check failed. Ensure `public_key.pem` is in the same folder as the `.exe`. If the date has passed, contact the developer for a license. |
 | **"Authentication failed"** | Handled automatically via background renewal. If it persists, check your credentials in `.env`. |
 | **"dashboard.html is missing"** | The `.exe` cannot find its internal files. Ensure you downloaded the complete package. |
 | **"Port already in use"** | Change `C4_GUI_PORT` in `.env` to a different port (e.g., `65004`). |
@@ -166,7 +155,7 @@ The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or o
 
 ---
 
-## 📊 System Requirements
+##  System Requirements
 
 - **OS:** Windows 10 or Windows 11 (64-bit)
 - **Network:** Access to your Control4 controller on the local network
@@ -174,7 +163,7 @@ The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or o
 
 ---
 
-## 📜 Disclaimer
+##  Disclaimer
 
 This project is **unofficial** and not affiliated with, endorsed by, or supported by Control4 Corporation. Use at your own risk. The Director API is intended for integration partners; ensure compliance with your local smart home policies and network security standards.
 
@@ -196,4 +185,4 @@ Inspired by the brilliant work of #lawtancool and his predecessors. Uses some co
 
 ## 📄 License
 
-Licensed for personal use. The application utilizes a secure, offline Hardware-Locked RSA licensing framework to ensure authorized usage.
+Free for personal use during the Beta period (valid until Jan 1, 2027). The application includes a secure licensing framework designed for authorized usage post-Beta.
