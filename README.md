@@ -116,7 +116,32 @@ Standard Buttons are rendered as clean, compact cards. The frontend code is heav
 
 ---
 
-## ️ Important Notes
+## ⚠️ Important Notes
+
+### 🔌 Check That Your Port Is Free Before Launching
+The application binds to the port specified in `C4_GUI_PORT` (default: **65003**). If another application — or **another running instance of C4DashboardTool itself** — is already using that port, the dashboard will fail to start.
+
+**Before launching**, open **PowerShell** (run as Administrator for full details) and verify the port is not occupied:
+
+```powershell
+Get-NetTCPConnection -LocalPort 65003 -ErrorAction SilentlyContinue | ForEach-Object {
+    $proc = Get-Process -Id $_.OwningProcess -ErrorAction SilentlyContinue
+    [PSCustomObject]@{
+        Port        = $_.LocalPort
+        State       = $_.State
+        PID         = $_.OwningProcess
+        ProcessName = $proc.ProcessName
+        Path        = $proc.Path
+    }
+} | Format-Table -AutoSize
+```
+
+- **No output** = the port is free ✅ — you're good to launch.
+- **Output appears** = something is already using the port ⛔. You can either:
+  1. **Kill the process:** `Stop-Process -Id <PID> -Force` (replace `<PID>` with the number shown).
+  2. **Change the port:** Edit `C4_GUI_PORT` in your `.env` file to a different value (e.g., `65004`).
+
+> **Tip:** Replace `65003` in the command above with whatever port you have configured in `.env`.
 
 ### 🔄 Automatic Token Renewal
 Control4 authentication tokens expire every 24 hours. This application features **background auto-renewal**. If a token expires, the system silently catches the error, re-authenticates, and retries. You will never need to manually restart the app.
@@ -149,13 +174,13 @@ The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or o
 | **"Access Denied" / Shows Fingerprint** | The beta period (ending Jan 1, 2027) has ended, or the license check failed. Ensure `public_key.pem` is in the same folder as the `.exe`. If the date has passed, contact the developer for a license. |
 | **"Authentication failed"** | Handled automatically via background renewal. If it persists, check your credentials in `.env`. |
 | **"dashboard.html is missing"** | The `.exe` cannot find its internal files. Ensure you downloaded the complete package. |
-| **"Port already in use"** | Change `C4_GUI_PORT` in `.env` to a different port (e.g., `65004`). |
+| **"Port already in use"** | Another application or a second instance of C4DashboardTool is occupying the port. Run the **PowerShell port check** from the [Important Notes](#-check-that-your-port-is-free-before-launching) section above to identify and stop the conflicting process, or change `C4_GUI_PORT` in `.env` to a different port (e.g., `65004`). |
 | **Cannot connect from phone** | Ensure your phone and PC are on the same Wi-Fi. Allow `C4DashboardTool.exe` through Windows Firewall. |
 | **Widgets show "ERR"** | The controller may be unreachable. Check your network connection and `C4_HOST` IP address. |
 
 ---
 
-##  System Requirements
+## 💻 System Requirements
 
 - **OS:** Windows 10 or Windows 11 (64-bit)
 - **Network:** Access to your Control4 controller on the local network
@@ -163,7 +188,7 @@ The server listens on `0.0.0.0`, allowing access from smartphones, tablets, or o
 
 ---
 
-##  Disclaimer
+## ⚖️ Disclaimer
 
 This project is **unofficial** and not affiliated with, endorsed by, or supported by Control4 Corporation. Use at your own risk. The Director API is intended for integration partners; ensure compliance with your local smart home policies and network security standards.
 
@@ -171,7 +196,7 @@ This project is **unofficial** and not affiliated with, endorsed by, or supporte
 
 ## 💡 Tips
 
-- **Run only one instance** of `C4DashboardTool.exe` at a time to avoid overloading your controller.
+- **Run only one instance** of `C4DashboardTool.exe` at a time. A second instance will fail to start because the port is already occupied by the first. Use the [PowerShell port check](#-check-that-your-port-is-free-before-launching) if you're unsure whether an instance is already running.
 - **Firewall:** If other devices can't connect, allow `C4DashboardTool.exe` through Windows Firewall for Private networks.
 - **Performance:** Keep the number of active Textbox/Combo widgets reasonable to minimize polling load on your Control4 controller.
 
@@ -186,3 +211,11 @@ Inspired by the brilliant work of #lawtancool and his predecessors. Uses some co
 ## 📄 License
 
 Free for personal use during the Beta period (valid until Jan 1, 2027). The application includes a secure licensing framework designed for authorized usage post-Beta.
+
+---
+
+### Summary of changes made:
+
+1. **New subsection** `🔌 Check That Your Port Is Free Before Launching` added under **Important Notes** with the full PowerShell command, explanation of the output, and two resolution paths (kill the process or change the port).
+2. **Troubleshooting table** — the "Port already in use" row now references the new port-check section and mentions that a duplicate instance is a common cause.
+3. **Tips section** — the "Run only one instance" bullet now explains *why* (port conflict) and links to the port-check command.
