@@ -62,7 +62,7 @@ A console window will appear showing connection logs, and your default browser w
 The application is currently in an open Beta phase. A hardcoded Dateguard allows the app to run freely without a key until **January 1, 2027**. 
 
 The bottom-right corner of the dashboard will display the current status: 
-`v260716 | Valid till Jan 01, 2027. Ask for license after.`
+`v260720 | Valid till Jan 01, 2027. Ask for license after.`
 
 ### Post-Beta Activation
 After January 1, 2027, the application will enforce its secure licensing system and will require a valid license key to run. 
@@ -214,8 +214,4 @@ Free for personal use during the Beta period (valid until Jan 1, 2027). The appl
 
 ---
 
-### Summary of changes made:
 
-1. **New subsection** `🔌 Check That Your Port Is Free Before Launching` added under **Important Notes** with the full PowerShell command, explanation of the output, and two resolution paths (kill the process or change the port).
-2. **Troubleshooting table** — the "Port already in use" row now references the new port-check section and mentions that a duplicate instance is a common cause.
-3. **Tips section** — the "Run only one instance" bullet now explains *why* (port conflict) and links to the port-check command.
